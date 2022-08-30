@@ -6,11 +6,6 @@ import (
 	"devopsdb/utils"
 )
 
-// TODO: should we handle where clauses etc. in here, then push them down the client
-// as an optimisation where possible?
-// For now, the client brings back everything and we trim them here
-// We'll need to do that anyway for joins etc., we can just pre-do it in the client too
-
 func New() *QueryEngine {
 	return &QueryEngine{
 		connectors: make(map[string]connectors.Connector, 0),
