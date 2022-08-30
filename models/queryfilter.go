@@ -6,10 +6,10 @@ import (
 )
 
 type QueryFilter struct {
-	Type      string // eq
+	Type      string // eq ('equal'), ne ('not equal'), 'regex', 'and', 'or'
 	FieldName string // The name of the field to check
 	Value     string // The value to compare against
-	Children  []QueryFilter
+	Children  []QueryFilter // Inner conditions for and/or nodes
 }
 
 func (f *QueryFilter) Filter(results ResultTable) ResultTable {
