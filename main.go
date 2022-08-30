@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"devopsdb/connectors"
 	"devopsdb/engine"
 	"devopsdb/inputs"
@@ -25,21 +26,19 @@ func main() {
 		),
 	)
 
-	// fmt.Println("Enter your query:")
+	fmt.Println("Enter your query:")
 
-	// reader := bufio.NewReader(os.Stdin)
-	// // ReadString will block until the delimiter is entered
-	// input, err := reader.ReadString('\n')
-	// if err != nil {
-	// 	fmt.Println("Error while reading query.", err)
-	// 	return
-	// }
+	reader := bufio.NewReader(os.Stdin)
+	// ReadString will block until the delimiter is entered
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error while reading query.", err)
+		return
+	}
 
-	// // remove the delimeter from the string
-	// input = strings.TrimSuffix(input, "\n")
+	// remove the delimeter from the string
+	input = strings.TrimSuffix(input, "\n")
 
-	// TODO: REMOVE
-	input := "select * from devops.projects where name like '%ops%' and name like '%agile%'"
 	query, _ := inputs.SqlToQuery(input)
 
 	result := engine.Execute(query)
