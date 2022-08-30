@@ -139,5 +139,3 @@ func TestWhereWithAnd(t *testing.T) {
 		assert.Equal(t, test.result, r, "Query '"+test.name+"' failed")
 	}
 }
-
-// TODO: check devops connector, how will it find the project setting? Must be in a top-level filter or the result of a top-level AND?
