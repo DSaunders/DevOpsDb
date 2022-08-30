@@ -1,0 +1,6 @@
+select * from schema.table
+select * from schema.table where x = 'y'
+select * from schema.table where x != 'y'
+select * from schema.table where x like '%y'
+select * from schema.table where x like 'y%'
+select * from schema.table where x like '%y%'
