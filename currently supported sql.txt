@@ -11,5 +11,6 @@ select * from schema.table where x like '%y%'
 select * from schema.table where A or B
 select * from schema.table where A and B
 select * from schema.table where (A and B) or (B or C)
+select * from schema.table where ((A and B) or (B or C)) or D etc ..
 
 select * from schema.table limit 10
