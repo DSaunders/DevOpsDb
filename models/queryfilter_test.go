@@ -53,3 +53,48 @@ func TestMatchesReges(t *testing.T) {
 	assert.Equal(t, "Peter", results[0]["name"])
 	assert.Equal(t, "saltpeter", results[1]["name"])
 }
+
+func TestAnd(t *testing.T) {
+
+	results := ResultTable{
+		{"name": "Peter", "age": "30"},
+		{"name": "Bob Dole", "age": "30"},
+		{"name": "saltpeter", "age": "19"},
+		{"name": "sally field", "age": "40"},
+	}
+
+	filter := &QueryFilter{
+		Type: "and",
+		Children: []QueryFilter{
+			{Type: "eq", FieldName: "name", Value: "peter"},
+			{Type: "eq", FieldName: "age", Value: "30"},
+		},
+	}
+	results = filter.Filter(results)
+
+	assert.Equal(t, 1, len(results))
+	assert.Equal(t, "Peter", results[0]["name"])
+}
+
+func TestOr(t *testing.T) {
+
+	results := ResultTable{
+		{"name": "Peter", "age": "30"},
+		{"name": "Bob Dole", "age": "30"},
+		{"name": "saltpeter", "age": "19"},
+		{"name": "sally field", "age": "40"},
+	}
+
+	filter := &QueryFilter{
+		Type: "or",
+		Children: []QueryFilter{
+			{Type: "eq", FieldName: "name", Value: "peter"},
+			{Type: "eq", FieldName: "age", Value: "30"},
+		},
+	}
+	results = filter.Filter(results)
+
+	assert.Equal(t, 2, len(results))
+	assert.Equal(t, "Peter", results[0]["name"])
+	assert.Equal(t, "Bob Dole", results[1]["name"])
+}

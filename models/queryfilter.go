@@ -16,29 +16,47 @@ func (f *QueryFilter) Filter(results ResultTable) ResultTable {
 
 	var result = ResultTable{}
 
-	switch f.Type {
-	case "eq":
-		var target = strings.ToLower(f.Value)
-		for _, r := range results {
-			if strings.ToLower(r[f.FieldName]) == target {
-				result = append(result, r)
-			}
-		}
-	case "ne":
-		var target = strings.ToLower(f.Value)
-		for _, r := range results {
-			if strings.ToLower(r[f.FieldName]) != target {
-				result = append(result, r)
-			}
-		}
-	case "regex":
-		regex := regexp.MustCompile("(?i)" + f.Value)
-		for _, r := range results {
-			if matched := regex.MatchString(r[f.FieldName]); matched {
-				result = append(result, r)
-			}
+	for _, row := range results {
+		if f.rowPasses(row) {
+			result = append(result, row)
 		}
 	}
 
 	return result
+}
+
+func (f *QueryFilter) rowPasses(row map[string]string) bool {
+	switch f.Type {
+
+	case "eq":
+		var target = strings.ToLower(f.Value)
+		return strings.ToLower(row[f.FieldName]) == target
+
+	case "ne":
+		var target = strings.ToLower(f.Value)
+		return strings.ToLower(row[f.FieldName]) != target
+
+	case "regex":
+		regex := regexp.MustCompile("(?i)" + f.Value)
+		return regex.MatchString(row[f.FieldName])
+
+	case "and":
+		passes := true
+		for _, child := range f.Children {
+			if !child.rowPasses(row) {
+				passes = false
+			}
+		}
+		return passes
+
+	case "or":
+		for _, child := range f.Children {
+			if child.rowPasses(row) {
+				return true
+			}
+		}
+		return false
+	}
+
+	return false
 }
