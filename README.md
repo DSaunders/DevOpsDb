@@ -28,6 +28,8 @@ where
 limit 50
 ```
 
+It will take the query, figure out the necessary API requests and return the data in a nice SQL-like table format.
+
 The aim is to support 'connectors' for Azure Devops, GitHub, Git and Azure.. maybe more
 
 
