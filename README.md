@@ -44,7 +44,7 @@ Coming soon:
 - [ ] A more usable command line interface
 - [ ] Ability to use 'joins'
 
-## Overview of the code
+## Overview of the code/interesting bits
 
 The code that takes the SQL Abstract Syntax Tree (AST) and converts it into a query model that the APIs can use is here:
 https://github.com/DSaunders/DevOpsDb/blob/main/inputs/sql.go
