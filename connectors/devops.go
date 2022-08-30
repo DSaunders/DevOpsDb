@@ -11,8 +11,6 @@ import (
 	"github.com/microsoft/azure-devops-go-api/azuredevops/pipelines"
 )
 
-// TODO: this is starting to grow to the point it should have tests
-
 type DevOpsClient struct {
 	ApiUrl string
 	Pat    string
@@ -102,7 +100,6 @@ func (client *DevOpsClient) getProjects(query ConnectorQuery) models.ResultTable
 	return results
 }
 
-// TODO: implement some sort of validation where we have to pass the project
 func (client *DevOpsClient) getPipelines(query ConnectorQuery) models.ResultTable {
 	connection := azuredevops.NewPatConnection(client.ApiUrl, client.Pat)
 
@@ -113,6 +110,9 @@ func (client *DevOpsClient) getPipelines(query ConnectorQuery) models.ResultTabl
 			projectFilter = filter.Value
 		}
 	}
+	
+	// TODO: This should also check for the 'project' field in top-level AND conditions, which would also 
+	// allow a valid API call
 	if projectFilter == "" {
 		log.Fatal("Cannot search Pipelines without passing a 'equals' filter for 'project'. This is a restriction of the DevOps API.")
 	}
