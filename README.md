@@ -44,3 +44,18 @@ Coming soon:
 - [ ] A more usable command line interface
 - [ ] Ability to use 'joins'
 
+## Overview of the code
+
+The code that takes the SQL Abstract Syntax Tree (AST) and converts it into a query model that the APIs can use is here:
+https://github.com/DSaunders/DevOpsDb/blob/main/inputs/sql.go
+
+For examples of what the output from parsing a SQL query looks like, see these tests:
+https://github.com/DSaunders/DevOpsDb/blob/main/inputs/sql_select_with_where_multiple_clauses_test.go
+
+The WHERE logic in a query is implmented as a tree of conditions that are resolved recursively. See:
+https://github.com/DSaunders/DevOpsDb/blob/main/models/queryfilter.go
+
+After we have that query model, we pass it to 'connectors' to execute the API calls.
+Here's the Azure DevOps one (this is still a spike, but it illustrates how it works):
+https://github.com/DSaunders/DevOpsDb/blob/main/connectors/devops.go
+
